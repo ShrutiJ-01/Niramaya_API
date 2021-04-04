@@ -1,21 +1,28 @@
 package com.niramaya.niramaya.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+@Entity
 public class User {
-
+//new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+	@Id
+	@Column
 	private String username;
-	private String id;
+	@Column	
+	private String timestamp;
 	
 	//default constructor
 	public User() {
 		username="";
-		id="";
+		timestamp=""; 
 	}
 	
 	//parameterized constructor
-	public User(String username, String id) {
+	public User(String username,String timestamp) {
 		super();
 		this.username = username;
-		this.id = id;
+		this.timestamp=timestamp;
 	}
 	
 	//getter function for username
@@ -29,19 +36,19 @@ public class User {
 	}
 	
 	//getter function for id
-	public String getId() {
-		return id;
+	public String getTimestamp() {
+		return timestamp;
 	}
 	
 	//setter function for id
-	public void setId(String id) {
-		this.id = id;
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
-	//overrriding to string method for user class
+	//overriding to string method for user class
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", id=" + id + ", getUsername()=" + getUsername() + ", getId()=" + getId()
+		return "User [username=" + username + ", id=" + timestamp + ", getUsername()=" + getUsername() + ", getTimestamp()=" + getTimestamp()
 				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
 				+ "]";
 	}
