@@ -20,6 +20,7 @@ public class UserProgressLog {
 		username="";
 		current_progress=0;
 		expected_progress=0;
+		ratio=(float) 0.0;
 	}
 	
 	public UserProgressLog(String username, int current_progress, int expected_progress) {
@@ -67,7 +68,10 @@ public class UserProgressLog {
 		this.ratio = ratio;
 	}
 	public void calculateRatio() {
-		ratio=current_progress/expected_progress;
+		
+		//type casting to float since integer division returns an integer
+		
+		ratio=(float)current_progress/(float)expected_progress;
 	}
 
 }

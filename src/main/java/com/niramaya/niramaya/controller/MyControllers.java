@@ -1,7 +1,8 @@
 package com.niramaya.niramaya.controller;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -10,7 +11,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //entities
-import com.niramaya.niramaya.entities.User;
 import com.niramaya.niramaya.entities.UserProgressLog;
 //service
 import com.niramaya.niramaya.services.NiramayaServices;
@@ -18,6 +18,8 @@ import com.niramaya.niramaya.services.NiramayaServices;
 public class MyControllers {
 	@Autowired
 	private NiramayaServices niramayaService;
+	Map<String,Integer> response=new HashMap<String,Integer>(); 
+	
 	
 	@GetMapping("/home")
 	public String home() {
@@ -25,22 +27,46 @@ public class MyControllers {
 	}
 	
 	//create a user
-	//mereko bohot zada assignment hai
-	//saare log radha ko bhaavdalte kyunki wo acchi dikhti
-	@PostMapping("/create/{username}")
-	public User createUser(@PathVariable String username) {
-		
-	return this.niramayaService.addUser(username);
+	@PostMapping(path="/create",consumes="application/json")
+	public Map<String,Integer> createUser(@RequestBody String requestJson) {
+	
+	//parsing incoming json to json object
+	JSONObject jsonObject = (JSONObject) JSONValue.parse(requestJson);   
+	
+	//extracting value associated with key "username"
+	String username = (String) jsonObject.get("username");  
+	
+	//redirecting to creation functions
+	int createStatus= this.niramayaService.addUser(username);
+	
+	//creating JSON response
+	response.clear();	
+	response.put("status",createStatus);
+	
+	return response;
 	
 	}
+	
 	@PostMapping(path="/todaysprogress",consumes="application/json")
-	public Map<String,Integer> updateUserProgress(@RequestBody UserProgressLog todaysLog) {
+	public Map<String,Integer> updateUserProgress(@RequestBody String requestJson) {
+		//parsing incoming json to json object
 		
-		//response will be a key value pair. This will be automatically sent as JSON object
-		Map<String,Integer> response=new HashMap<String,Integer>(); 
+		JSONObject jsonObject = (JSONObject) JSONValue.parse(requestJson);   
 		
-		int updateStatus=this.niramayaService.addProgressLog(todaysLog);
-		response.put("status",updateStatus);
+		UserProgressLog todays_log=new UserProgressLog();
+		
+		//extracting value associated with keys
+		todays_log.setUsername((String) jsonObject.get("username"));  
+		todays_log.setCurrent_progress(Integer.valueOf(String.valueOf(jsonObject.get("current_progress"))));
+		todays_log.setExpected_progress(Integer.valueOf(String.valueOf(jsonObject.get("expected_progress")))); 	
+		
+		//response will be a key value pair. This will be automatically sent as JSON object		
+		
+		int update_status=this.niramayaService.addProgressLog(todays_log);
+		
+		//creating and sending response
+		response.clear();	
+		response.put("status",update_status);
 		
 		return response;		
 		
