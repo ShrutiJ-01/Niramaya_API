@@ -1,26 +1,18 @@
 package com.niramaya.niramaya.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class UserProgressLog {
-	@Id
-	@Column
-	private String username;
-	@Column
+	private String timestamp;
 	private int current_progress;
-	@Column
 	private int expected_progress;
-	@Column
-	private float ratio;
+	private float ratio;	
+	private String username;
 	
 	public UserProgressLog() {
 		username="";
 		current_progress=0;
 		expected_progress=0;
 		ratio=(float) 0.0;
+		timestamp="";
 	}
 	
 	public UserProgressLog(String username, int current_progress, int expected_progress) {
@@ -70,8 +62,16 @@ public class UserProgressLog {
 	public void calculateRatio() {
 		
 		//type casting to float since integer division returns an integer
-		
-		ratio=(float)current_progress/(float)expected_progress;
+		float result=(float)current_progress/(float)expected_progress;
+		ratio=(float)(Math.round(result * 100.0) / 100.0);
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

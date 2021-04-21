@@ -4,5 +4,6 @@ import com.niramaya.niramaya.entities.UserProgressLog;
 public interface NiramayaServices {
 	
 	public int addUser(String username);
-	public int addProgressLog(UserProgressLog log);
+	public UserProgressLog addProgressLog(UserProgressLog log);
+	public UserProgressLog getWeeklyProgress(String username);
 }

@@ -1,15 +1,8 @@
 package com.niramaya.niramaya.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-@Entity
 public class User {
 //new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-	@Id
-	@Column
 	private String username;
-	@Column	
 	private String timestamp;
 	
 	//default constructor

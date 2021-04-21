@@ -18,8 +18,6 @@ import com.niramaya.niramaya.services.NiramayaServices;
 public class MyControllers {
 	@Autowired
 	private NiramayaServices niramayaService;
-	Map<String,Integer> response=new HashMap<String,Integer>(); 
-	
 	
 	@GetMapping("/home")
 	public String home() {
@@ -28,8 +26,7 @@ public class MyControllers {
 	
 	//create a user
 	@PostMapping(path="/create",consumes="application/json")
-	public Map<String,Integer> createUser(@RequestBody String requestJson) {
-	
+	public Map<String,Integer> createUser(@RequestBody String requestJson) {	
 	//parsing incoming json to json object
 	JSONObject jsonObject = (JSONObject) JSONValue.parse(requestJson);   
 	
@@ -40,6 +37,7 @@ public class MyControllers {
 	int createStatus= this.niramayaService.addUser(username);
 	
 	//creating JSON response
+	Map<String,Integer> response=new HashMap<String,Integer>(); 
 	response.clear();	
 	response.put("status",createStatus);
 	
@@ -48,7 +46,7 @@ public class MyControllers {
 	}
 	
 	@PostMapping(path="/todaysprogress",consumes="application/json")
-	public Map<String,Integer> updateUserProgress(@RequestBody String requestJson) {
+	public UserProgressLog updateUserProgress(@RequestBody String requestJson) {
 		//parsing incoming json to json object
 		
 		JSONObject jsonObject = (JSONObject) JSONValue.parse(requestJson);   
@@ -60,15 +58,27 @@ public class MyControllers {
 		todays_log.setCurrent_progress(Integer.valueOf(String.valueOf(jsonObject.get("current_progress"))));
 		todays_log.setExpected_progress(Integer.valueOf(String.valueOf(jsonObject.get("expected_progress")))); 	
 		
-		//response will be a key value pair. This will be automatically sent as JSON object		
+		//response will be automatically sent as JSON object		
 		
-		int update_status=this.niramayaService.addProgressLog(todays_log);
+		UserProgressLog result=this.niramayaService.addProgressLog(todays_log);
 		
-		//creating and sending response
-		response.clear();	
-		response.put("status",update_status);
+		return result;		
 		
-		return response;		
+	} 
+	
+	@PostMapping(path="/weeklyprogress",consumes="application/json")
+	public UserProgressLog getWeeklyProgress(@RequestBody String requestJson) {
+		//parsing incoming json to json object
+		
+		JSONObject jsonObject = (JSONObject) JSONValue.parse(requestJson);   	
+		
+		//extracting value associated with keys
+		String username=(String) jsonObject.get("username");
+		
+		//response will be automatically sent as JSON object			
+		UserProgressLog result=this.niramayaService.getWeeklyProgress(username);
+		
+		return result;		
 		
 	} 
 	

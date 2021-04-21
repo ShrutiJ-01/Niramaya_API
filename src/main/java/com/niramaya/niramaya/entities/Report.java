@@ -1,20 +1,9 @@
-
 package com.niramaya.niramaya.entities;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-@Entity
 public class Report {
 //new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-	@Id
-	@Column
 	private String username;
-	@Column	
 	private String mindtype;
-	@Column	
 	private String bodytype;
-	@Column	
 	private String timestamp;
 	
 	//default constructor

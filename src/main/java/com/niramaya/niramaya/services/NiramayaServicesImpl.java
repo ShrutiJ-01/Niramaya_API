@@ -27,17 +27,39 @@ public class NiramayaServicesImpl implements NiramayaServices {
 	}
 
 	@Override
-	public int addProgressLog(UserProgressLog log) {
+	public UserProgressLog addProgressLog(UserProgressLog log) {
+		UserProgressLog placeholder=new UserProgressLog();
 		try {
 			//calculate ratio
 			log.calculateRatio();
+			log.setTimestamp(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()));
+			
+			
 			int status=progressDao.updateUserProgress(log);	//save the log to database
-			return status;
+			
+			if(status==1)
+			{
+				return log;
+			}
+			else if(status==2)
+			{
+				placeholder.setTimestamp("Daily progress already submitted!");
+				return placeholder;
+			}
+			else {
+				placeholder.setTimestamp("Server could not update progress");
+				return placeholder;
+			}
 		}
 		catch(Exception e) {
-			System.out.println(e.toString());
-			return 0;
+			placeholder.setTimestamp("Server could not update progress");
+			return placeholder;
 		}
-	}	
+	}
 
+	@Override
+	public UserProgressLog getWeeklyProgress(String username) {
+		UserProgressLog weeklylog=progressDao.getWeeklyLog(username);	//save the log to database
+		return weeklylog;
+	}
 }

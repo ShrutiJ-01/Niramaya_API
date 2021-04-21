@@ -10,7 +10,7 @@ public class ReportDaoImpl implements ReportDao {
 
 	@Override
 	public int addReporttolist(Report new_report) {
-		String query = "INSERT INTO userlist values('" + new_report.getUsername() + "','" + new_report.getMindtype() + "','" + new_report.getBodytype() + "','" + new_report.getTimestamp()
+		String query = "INSERT INTO report values('" + new_report.getUsername() + "','" + new_report.getMindtype() + "','" + new_report.getBodytype() + "','" + new_report.getTimestamp()
 				+ "')";
 		Statement addReporttmt;
 		try {
