@@ -141,7 +141,7 @@ public class ProgressDaoImpl implements ProgressDao {
 			else {
 				System.out.println("Not A week yet");
 				weeklyProgressLog.setUsername(username);
-				weeklyProgressLog.setTimestamp("Not A week yet");
+				weeklyProgressLog.setTimestamp("Not a week yet");
 				weeklyProgressLog.setRatio((float)0.0);
 			}
 			return weeklyProgressLog;
